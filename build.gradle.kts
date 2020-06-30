@@ -18,23 +18,37 @@ repositories {
   mavenCentral()
 }
 
-val mainSrc = setOf("src")
-val testSrc = setOf("tests")
+val mainSrc = setOf("main/code")
+val mainResources = setOf("main/resources")
+val testSrc = setOf("test/code")
+val testResources = setOf("test/resources")
 
 configure<JavaPluginExtension> {
   sourceCompatibility = javaVersion
   targetCompatibility = javaVersion
+}
 
-  configure<SourceSetContainer> {
-    named("main") { java.setSrcDirs(mainSrc) }
-    named("test") { java.setSrcDirs(testSrc) }
+configure<SourceSetContainer> {
+  named("main") {
+    java.setSrcDirs(mainSrc)
+    resources.setSrcDirs(mainResources)
+  }
+  named("test") {
+    java.setSrcDirs(testSrc)
+    resources.setSrcDirs(testResources)
   }
 }
 
 configure<KotlinJvmProjectExtension> {
   sourceSets {
-    named("main") { kotlin.setSrcDirs(mainSrc) }
-    named("test") { kotlin.setSrcDirs(testSrc) }
+    named("main") {
+      kotlin.setSrcDirs(mainSrc)
+      resources.setSrcDirs(mainResources)
+    }
+    named("test") {
+      kotlin.setSrcDirs(testSrc)
+      resources.setSrcDirs(testResources)
+    }
   }
 }
 
