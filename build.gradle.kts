@@ -74,6 +74,12 @@ tasks {
 
   register<DownloadDependenciesTask>("downloadDependencies")
   register<DependencyReportTask>("allDeps")
+
+  register("version") {
+    doLast {
+      println(project.property("version"))
+    }
+  }
 }
 
 idea {
