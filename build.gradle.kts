@@ -1,6 +1,7 @@
 import org.gradle.api.JavaVersion.VERSION_14
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.Properties
 
 plugins {
   base
@@ -80,6 +81,12 @@ tasks {
       println(project.property("version"))
     }
   }
+
+  register<WriteProperties>("prepareRelease") {
+    outputFile = file("gradle.properties")
+    properties(outputFile.readProperties())
+    property("version", version.toString().substringBefore("-SNAPSHOT"))
+  }
 }
 
 idea {
@@ -90,3 +97,9 @@ fun String.remove(regex: Regex) = replace(regex, "")
 fun String.removeLeadingNonAlphabetic() = remove("^[^a-z]*".toRegex())
 fun String.removeNonAlphanumeric() = remove("[^a-z0-9]".toRegex())
 fun String.toLegalPackageName() = toLowerCase().removeLeadingNonAlphabetic().removeNonAlphanumeric()
+
+fun File.readProperties(): Map<String, Any> = inputStream().use {
+  val properties = Properties()
+  properties.load(it)
+  properties
+}.mapKeys { (key, _) -> key.toString() }

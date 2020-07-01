@@ -3,7 +3,7 @@
 set -euo pipefail
 
 release() {
-  ./gradlew prepare-release
+  ./gradlew prepareRelease
   local version
   version=$(./gradlew -q version)
   git commit -am "Release version $version"
