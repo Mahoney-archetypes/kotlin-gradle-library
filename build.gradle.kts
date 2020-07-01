@@ -1,3 +1,4 @@
+import com.github.zafarkhaja.semver.Version
 import org.gradle.api.JavaVersion.VERSION_14
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -83,9 +84,17 @@ tasks {
   }
 
   register<WriteProperties>("prepareRelease") {
+    val newVersion = Version.valueOf(version.toString()).normalVersion
     outputFile = file("gradle.properties")
     properties(outputFile.readProperties())
-    property("version", version.toString().substringBefore("-SNAPSHOT"))
+    property("version", newVersion)
+  }
+
+  register<WriteProperties>("prepareNextDevelopmentVersion") {
+    val newVersion = Version.valueOf(version.toString()).incrementPatchVersion().setPreReleaseVersion("SNAPSHOT")
+    outputFile = file("gradle.properties")
+    properties(outputFile.readProperties())
+    property("version", newVersion)
   }
 }
 

@@ -8,6 +8,7 @@ release() {
   version=$(./gradlew -q version)
   git commit -am "Release version $version"
   git tag "$version"
+  ./gradlew prepareNextDevelopmentVersion
 }
 
 main() {
