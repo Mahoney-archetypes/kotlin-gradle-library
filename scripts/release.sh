@@ -4,11 +4,15 @@ set -euo pipefail
 
 release() {
   ./gradlew prepareRelease
-  local version
-  version=$(./gradlew -q version)
-  git commit -am "Release version $version"
-  git tag "$version"
+  local releaseVersion
+  releaseVersion=$(./gradlew -q version)
+  git commit -am "Release version $releaseVersion"
+  git tag "$releaseVersion"
+  git checkout trunk
   ./gradlew prepareNextDevelopmentVersion
+  local devVersion
+  devVersion=$(./gradlew -q version)
+  git commit -am "Prepared new development version $devVersion"
 }
 
 main() {
