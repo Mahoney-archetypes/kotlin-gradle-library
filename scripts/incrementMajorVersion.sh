@@ -2,6 +2,16 @@
 
 set -euo pipefail
 
+assertOnTrunk() {
+  local currentBranch
+  currentBranch=$(git rev-parse --abbrev-ref HEAD)
+
+  if [ "$currentBranch" != "trunk" ]; then
+    >&2 echo "Can only increment major version on trunk; currently on $currentBranch"
+    exit 1
+  fi
+}
+
 checkoutNewMajorBranchFor() {
   local releaseVersion=$1
   local majorVersion="${releaseVersion%%.*}"
@@ -16,6 +26,9 @@ updateVersion() {
 }
 
 main() {
+
+  assertOnTrunk
+
   local currentVersion
   currentVersion=$(./gradlew -q version)
 
