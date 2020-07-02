@@ -4,8 +4,7 @@ set -euo pipefail
 
 checkoutNewMinorBranchFor() {
   local releaseVersion=$1
-  local minorBranch
-  minorBranch=$(echo "$releaseVersion" | sed s/\\./_/g | sed s/0\$/x/)
+  local minorBranch="${releaseVersion/%0/x}"
   git checkout -b "$minorBranch"
 }
 
