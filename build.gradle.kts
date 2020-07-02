@@ -107,6 +107,15 @@ tasks {
     properties(outputFile.readProperties())
     property("version", newVersion)
   }
+
+  register<WriteProperties>("prepareNextMajorVersion") {
+    val newVersion = Version.valueOf(version.toString())
+      .incrementMajorVersion()
+      .setPreReleaseVersion("SNAPSHOT")
+    outputFile = file("gradle.properties")
+    properties(outputFile.readProperties())
+    property("version", newVersion)
+  }
 }
 
 idea {
