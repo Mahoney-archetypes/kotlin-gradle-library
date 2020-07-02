@@ -90,9 +90,18 @@ tasks {
     property("version", newVersion)
   }
 
-  register<WriteProperties>("prepareNextDevelopmentVersion") {
+  register<WriteProperties>("prepareNextPatchVersion") {
     val newVersion = Version.valueOf(version.toString())
       .incrementPatchVersion()
+      .setPreReleaseVersion("SNAPSHOT")
+    outputFile = file("gradle.properties")
+    properties(outputFile.readProperties())
+    property("version", newVersion)
+  }
+
+  register<WriteProperties>("prepareNextMinorVersion") {
+    val newVersion = Version.valueOf(version.toString())
+      .incrementMinorVersion()
       .setPreReleaseVersion("SNAPSHOT")
     outputFile = file("gradle.properties")
     properties(outputFile.readProperties())
