@@ -10,7 +10,7 @@ checkoutNewMinorBranchFor() {
 
 updateVersion() {
   local gradleNextVersionCommand=$1
-  ./gradlew "$gradleNextVersionCommand"
+  ./gradlew -q "$gradleNextVersionCommand"
   local devVersion
   devVersion=$(./gradlew -q version)
   git commit -am "Prepared new development version $devVersion"
@@ -21,7 +21,7 @@ release() {
   local currentBranch
   currentBranch=$(git rev-parse --abbrev-ref HEAD)
 
-  ./gradlew prepareRelease
+  ./gradlew -q prepareRelease
 
   local releaseVersion
   releaseVersion=$(./gradlew -q version)
@@ -43,9 +43,8 @@ release() {
 }
 
 main() {
-  if ./gradlew build; then
-    release
-  fi
+  ./gradlew build
+  release
 }
 
 main
