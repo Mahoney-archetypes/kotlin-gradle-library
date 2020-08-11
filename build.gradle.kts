@@ -20,10 +20,10 @@ repositories {
   mavenCentral()
 }
 
-val mainSrc = setOf("main/code")
-val mainResources = setOf("main/resources")
-val testSrc = setOf("test/code")
-val testResources = setOf("test/resources")
+val mainSrc = setOf("src")
+val mainResources = setOf("srcResources")
+val testSrc = setOf("tests")
+val testResources = setOf("testsResources")
 
 configure<JavaPluginExtension> {
   sourceCompatibility = javaVersion
