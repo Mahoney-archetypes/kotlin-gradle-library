@@ -7,8 +7,7 @@ import org.jetbrains.gradle.ext.PackagePrefixContainer
 val IdeaModel.packagePrefix: PackagePrefixContainer
   get() {
     val settings = (module as ExtensionAware).extensions.getByName("settings") as ExtensionAware
-    val packagePrefix = settings.extensions.getByName("packagePrefix") as PackagePrefixContainer
-    return packagePrefix
+    return settings.extensions.getByName("packagePrefix") as PackagePrefixContainer
   }
 
 val Project.sourceSets: SourceSetContainer get() =
