@@ -84,51 +84,34 @@ tasks {
   }
 
   register<WriteProperties>("prepareRelease") {
-    val newVersion = Version.valueOf(version.toString()).normalVersion
-    outputFile = file("gradle.properties")
-    properties(outputFile.readProperties())
-    property("version", newVersion)
+    writeVersion(version.toVersion().normal())
   }
 
   register<WriteProperties>("prepareNextPatchVersion") {
-    val newVersion = Version.valueOf(version.toString())
-      .incrementPatchVersion()
-      .setPreReleaseVersion("SNAPSHOT")
-    outputFile = file("gradle.properties")
-    properties(outputFile.readProperties())
-    property("version", newVersion)
+    writeVersion(
+      version.toVersion()
+        .incrementPatchVersion()
+        .snapshot()
+    )
   }
 
   register<WriteProperties>("prepareNextMinorVersion") {
-    val newVersion = Version.valueOf(version.toString())
-      .incrementMinorVersion()
-      .setPreReleaseVersion("SNAPSHOT")
-    outputFile = file("gradle.properties")
-    properties(outputFile.readProperties())
-    property("version", newVersion)
+    writeVersion(
+      version.toVersion()
+        .incrementMinorVersion()
+        .snapshot()
+    )
   }
 
   register<WriteProperties>("prepareNextMajorVersion") {
-    val newVersion = Version.valueOf(version.toString())
-      .incrementMajorVersion()
-      .setPreReleaseVersion("SNAPSHOT")
-    outputFile = file("gradle.properties")
-    properties(outputFile.readProperties())
-    property("version", newVersion)
+    writeVersion(
+      version.toVersion()
+        .incrementMajorVersion()
+        .snapshot()
+    )
   }
 }
 
 idea {
   setPackagePrefix("$group.${name.toLegalPackageName()}")
 }
-
-fun String.remove(regex: Regex) = replace(regex, "")
-fun String.removeLeadingNonAlphabetic() = remove("^[^a-z]*".toRegex())
-fun String.removeNonAlphanumeric() = remove("[^a-z0-9]".toRegex())
-fun String.toLegalPackageName() = toLowerCase().removeLeadingNonAlphabetic().removeNonAlphanumeric()
-
-fun File.readProperties(): Map<String, Any> = inputStream().use {
-  val properties = Properties()
-  properties.load(it)
-  properties
-}.mapKeys { (key, _) -> key.toString() }
