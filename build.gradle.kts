@@ -1,8 +1,6 @@
-import com.github.zafarkhaja.semver.Version
 import org.gradle.api.JavaVersion.VERSION_14
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.Properties
 
 plugins {
   base
