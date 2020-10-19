@@ -73,7 +73,6 @@ tasks {
     useJUnitPlatform()
   }
 
-  register<DownloadDependenciesTask>("downloadDependencies")
   register<DependencyReportTask>("allDeps")
 
   register("version") {
