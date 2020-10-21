@@ -18,7 +18,7 @@ checkoutNewMajorBranchFor() {
   git checkout -b "$majorVersion.x"
 }
 
-updateVersion() {
+updateMajorVersion() {
   ./gradlew -q prepareNextMajorVersion
   local devVersion
   devVersion=$(./gradlew -q version)
@@ -29,12 +29,11 @@ main() {
 
   assertOnMain
 
-  local currentVersion
-  currentVersion=$(./gradlew -q version)
+  local currentVersion && currentVersion=$(./gradlew -q version)
 
   checkoutNewMajorBranchFor "$currentVersion"
   git checkout main
-  updateVersion prepareNextMajorVersion
+  updateMajorVersion
 }
 
 main
