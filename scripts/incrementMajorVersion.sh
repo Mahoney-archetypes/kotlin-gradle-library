@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-. releaseFunctions.sh
+. "$(dirname "$0")/releaseFunctions.sh"
 
 checkoutNewMajorBranchFor() {
   local releaseVersion=$1
