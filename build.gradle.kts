@@ -56,9 +56,8 @@ dependencies {
 
   api(kotlin("stdlib"))
 
-  testImplementation(kotest("runner-junit5-jvm"))
-  testImplementation(kotest("runner-console-jvm"))
-  testImplementation(kotest("assertions-core-jvm"))
+  testImplementation(kotest("runner-junit5"))
+  testImplementation(kotest("assertions-core"))
   testImplementation(mockk)
 }
 
