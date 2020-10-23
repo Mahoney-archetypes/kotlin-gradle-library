@@ -8,6 +8,7 @@ plugins {
   id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
   id("org.jetbrains.gradle.plugin.idea-ext")
   id("com.dorongold.task-tree") version "1.5"
+  id("com.palantir.revapi") version "1.4.3"
 }
 
 @Suppress("UnstableApiUsage")
