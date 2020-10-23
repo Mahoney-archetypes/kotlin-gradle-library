@@ -17,6 +17,12 @@ val javaVersion by extra(VERSION_14)
 repositories {
   jcenter()
   mavenCentral()
+  mavenLocal {
+    content {
+      // this repository *only* contains artifacts with group "my.company"
+      includeGroup(project.group.toString())
+    }
+  }
 }
 
 val mainSrc = setOf("src")
