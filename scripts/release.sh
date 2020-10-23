@@ -20,6 +20,7 @@ release() {
 
   git commit -am "Release version $releaseVersion"
   git tag "$releaseVersion"
+  ./gradlew publishToMavenLocal
 
   if [[ $releaseVersion == *.0 ]]; then
     # First release of this minor version

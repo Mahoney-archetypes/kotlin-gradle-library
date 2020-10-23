@@ -9,6 +9,7 @@ plugins {
   id("org.jetbrains.gradle.plugin.idea-ext")
   id("com.dorongold.task-tree") version "1.5"
   id("com.palantir.revapi") version "1.4.3"
+  `maven-publish`
 }
 
 @Suppress("UnstableApiUsage")
@@ -118,4 +119,12 @@ tasks {
 
 idea {
   setPackagePrefix("$group.${name.toLegalPackageName()}")
+}
+
+publishing {
+  publications {
+    create<MavenPublication>("mavenJava") {
+      from(components["java"])
+    }
+  }
 }
