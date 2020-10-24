@@ -1,3 +1,4 @@
+import com.palantir.gradle.revapi.RevapiAnalyzeTask
 import org.gradle.api.JavaVersion.VERSION_14
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -84,7 +85,7 @@ tasks {
 
   register("version") {
     doLast {
-      println(project.property("version"))
+      println(version)
     }
   }
 
@@ -114,6 +115,10 @@ tasks {
         .incrementMajorVersion()
         .snapshot()
     )
+  }
+
+  withType<RevapiAnalyzeTask> {
+    onlyIf { !version.toVersion().allowsBreakingChanges()  }
   }
 }
 
