@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
   base
   kotlin("jvm") version kotlinVersion
-  id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+  id("org.jmailen.kotlinter") version "3.2.0"
   id("org.jetbrains.gradle.plugin.idea-ext")
   id("com.dorongold.task-tree") version "1.5"
   id("com.palantir.revapi") version "1.4.3"
@@ -62,9 +62,6 @@ configure<KotlinJvmProjectExtension> {
 }
 
 dependencies {
-
-  api(kotlin("stdlib"))
-
   testImplementation(kotest("runner-junit5"))
   testImplementation(kotest("assertions-core"))
   testImplementation(mockk)
@@ -72,11 +69,11 @@ dependencies {
 
 tasks {
 
-  withType<KotlinCompile> {
+  compileKotlin {
     kotlinOptions.jvmTarget = "13" // hardcoded until kotlin can cope with 14
   }
 
-  named<Test>("test") {
+  test {
     environment("BUILD_SYSTEM", "GRADLE")
     useJUnitPlatform()
   }
@@ -117,8 +114,12 @@ tasks {
     )
   }
 
-  withType<RevapiAnalyzeTask> {
-    onlyIf { !version.toVersion().allowsBreakingChanges()  }
+  revapiAnalyze {
+    onlyIf {
+      val run = !version.toVersion().allowsBreakingChanges()
+      logger.lifecycle("Version $version means this should run: $run")
+      run
+    }
   }
 }
 
